@@ -1,55 +1,117 @@
-
 <?php
-$username = "AP";
-$fulltimenow = date("d.m.Y H:i:s");
-$hournow=date("H");
-$partofday="lihtsalt aeg";
-$weekdaynameset = ["esmaspäev", "teisipäev", "kolmapäev", "neljapäev", "reede", "laupäev", "pühapäev"]; 
+require("header.php");
+$fulltimenow = date("H:i:s");
+$currentyear = date("Y");
+$currentdate = date("d");
+$hournow = date("H");
+$partofday = "";
+$weekdaynameset = ["esmaspäev", "teisipäev", "kolmapäev", "neljapäev", "reede", "laupäev", "pühapäev"];
 $monthnameset = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"];
-if($hournow < 7){
-	$partofday="uneaeg";
+//echo $weekdaynameset[1];
+$weekdaynow = date("N");
+$monthnamenow = date("n");
+if($hournow <= 7 and $hournow >= 24){
+    $partofday = "uneaeg";
 }
-if($hournow >= 8 and $hournow <18){
-	$partofday="Peoaeg!";
+if($hournow >= 8 and $hournow <= 18){
+    $partofday = "akadeemiline aeg";
 }
-//vaatame semestri kulgemist.
+if($hournow > 18 and $hournow <= 20){
+    $partofday = "trenni aeg";
+}
+if($hournow > 20 and $hournow < 22){
+    $partofday = "pela aeg";
+}
+if($hournow >= 22 and $hournow < 24){
+    $partofday = "ettevalmistus järgnevaks päevaks";
+}
+//semestri kulg
 $semesterstart = new DateTime("2020-8-31");
 $semesterend = new DateTime("2020-12-13");
-//Selgitame välja nende vahe ehk erinevuse
 $semesterduration = $semesterstart->diff($semesterend);
-//leiame selle päevade arvuna 
 $semesterdurationdays = $semesterduration->format("%r%a");
-//leiame tänase päevaga samamoodi saad kasutada et semester polegi peale hakanud.
 $today = new DateTime("now");
-// Leia tänase päevaga pikkus, seejärel if fromsemesterstartdays < 0{siis pole semester veel peale hakanud}
-$durationday = $semesterstart->diff($today);
-
-// Kui päevad on läbi siis ütle et õppetöö on läbi ja pane echo käsuga välja kuskile 
-//samuti leia protsent palju jäänud on oh boy dis gon be fun
-//loeme kataloogist piltide nimekirja
-$allfiles = scandir("../vp_pics/");
-$piccount = count($picfiles);
-for($i = 0;$i < $piccount; $i ++){
-	//
-	$imghtml .=
+$unidays = "";
+if($semesterstart <= $today and $semesterend >= $today){
+    $unidays = "Semester on täies hoos.";
 }
+else{
+    $unidays = "Praegu semester ei käi.";
+}
+$semesterdurationdaysfromnow = $today->diff($semesterend);
+$semesterdurationdaysfromnowdays = $semesterdurationdaysfromnow->format("%r%a");
+$completedsemester = $semesterstart->diff($today);
+$dayscompletedsemester = $completedsemester->format("%r%a");
+$semestercompletion = round(($dayscompletedsemester / $semesterdurationdays) * 100, 2);
+if($semestercompletion >= 100){
+    $semestercompletion = 100;
+}
+elseif ($semestercompletion <= 0){
+    $semestercompletion = 0;
+}
+//loeme kataloogist piltid
+$allfiles = scandir("img/");
+$picfiles = array_slice($allfiles, 2);
+$imghtml = "";
+$piccount = count($picfiles);
+$picnum = mt_rand(0, ($piccount - 1));
+/*for($i = 0;$i < $piccount; $i++){
+    $imghtml .= '<img src="vp_pics/'. $picfiles[$i] .'" alt="pildid TLUst">';
+}*/
+$imghtml ='<img src="vp_pics/'. $picfiles[$picnum] .'" alt="pildid TLUst" class="center">';
+
+
 ?>
-<!DOCTYPE html>
-<html lang="et">
-<head>
-  <meta charset="utf-8">
-  <title><?php echo $username; ?> Progeb Veebilehte</title>
-</head>
+    .welcome {
+        float: none;
+        color: whitesmoke;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 18px;
+    }
+    .time {
+        float: none;
+        color: whitesmoke;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 20px;
+    }
+
+    </style>
+    </head>
 <body>
-<img src="../img/vp_banner.png" alt="Veebiprogrammeerimise kursuse logo">
-<h1><?php echo $hournow; ?> </h1>
-  <h1 style="color:red;"> Autobiograafia </h1>
-  <p>Tänapäeval on autod liigselt lihtsasti kasutatavad. Loodan samuti, et keegi ei näe mind ja sind ja teisi jne </p>
-  <h2><?php echo $username ." Minu lemmik mees"; ?> </h2>
-  <p>See on tõepoolest vaid õppimise jaoks loodud, eks ole nii!</p>
-  <a href="https://www.tlu.ee">Tallinna Ülikooli</a>
-  <p>SIIN VEEBILEHEKÜLJEL PUUDUB PÄRIS SISU, LOODUD VAID ÕPPE EESMÄRGIL</p>
-  <p>Lehe avamise hetkel oli kellaaeg meie serveris:<?php echo $weekdaynameset[$weekdaynow -1] .", " .$fulltimenow; ?>.</p>
-  <p><?php echo "Parajasti on ". $partofday. ".";?></p>
+    <img src="img/vp_banner.png" alt="Veebiproge kursuse logo." class="center">
+    <hr> 
+    <div class="topnav">
+        <a class="active" href="home.php">Kodu</a>
+        <a href="writethoughts.php">Kirjuta mõtteid</a>
+        <a href="thoughts.php">Loe mõtteid</a>
+        <a href='listfilms.php'>Filmide nimekiri</a>
+        <a href="addfilms.php">Lisa filme</a>
+        <a href="account.php">Kasutaja</a>
+        <a href="https://github.com/AnPet11/veebiprogrammeerimine">GitHubi link</a>
+        
+    </div>
+    <hr>
+    <div class="welcome">
+        <h1><?php echo $username; ?>  proovib </h1>
+        <p>Särkides ja värkides pole probleemi!</p>
+        <p>Leht loodud veebiproge kursuse raames <a href="https://www.tlu.ee/dt" style="color:deepskyblue">TLU Digitehnoloogiate Instituudis.</a></p>
+    </div>
+    <hr>
+    <div class="time">
+        <p>Leht avati: <?php echo $weekdaynameset[$weekdaynow-1].", ". $currentdate.'. '.$monthnameset[$monthnamenow-1].' '.$currentyear.', kell '. $fulltimenow; ?></p>
+        <p><?php echo "Parajasti on ".$partofday."."; ?></p>
+        <p><?php echo $unidays." Läbitud on ".$semestercompletion."% semestrist.";?></p>
+        <p><?php echo "Semester kestab kokku ".$semesterdurationdays." päeva.";?></p>
+        <p><?php echo "Semestri lõpuni on ".$semesterdurationdaysfromnowdays." päeva.";?></p>
+        <p><?php echo "Praeguseks on semestris kestnud ".$dayscompletedsemester." päeva.";?></p>
+    </div>
+    <hr>
+    <?php echo $imghtml; ?>
+    <hr>
+     <div style="width:100%;height:0px;position:relative;padding-bottom:75.000%;"><iframe src="https://streamable.com/e/4jljlx?loop=0" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div>
 </body>
 </html>
