@@ -1,6 +1,6 @@
 <?php
 require("header.php");
-$database = 'if20_karljanar_ki_1';
+$database = 'if20_angelina_pe';
 if(isset($_POST["ideasubmit"]) and !empty($_POST["ideainput"])){
     //loome uhenduse
     $conn = new mysqli($serverhost, $serverusername, $serverpassword, $database);

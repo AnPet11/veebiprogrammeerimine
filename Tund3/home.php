@@ -49,16 +49,27 @@ if($semestercompletion >= 100){
 elseif ($semestercompletion <= 0){
     $semestercompletion = 0;
 }
-//loeme kataloogist piltid
-$allfiles = scandir("img/");
-$picfiles = array_slice($allfiles, 2);
-$imghtml = "";
-$piccount = count($picfiles);
+
+//loeme kataloogist piltide nimekirja
+  $allfiles = scandir("img/vp_pics/");
+  //echo $allfiles;
+  //var_dump($allfiles);
+  $picfiles = array_slice($allfiles, 2);
+  //var_dump($picfiles);
+  $imghtml = "";
+  $piccount = count($picfiles);
+  //$i = $i + 1;
+  //$i ++;
+  //$i += 3
+ /*// koik 4 pilti korraga *for($i = 0;$i < $piccount; $i ++){
+	  //<img src="../img/pildifail" alt="tekst">
+	  $imghtml .= '<img src="img/vp_pics/' .$picfiles[$i] .'" alt="Tallinna Ülikool">';
+  }*/
 $picnum = mt_rand(0, ($piccount - 1));
-/*for($i = 0;$i < $piccount; $i++){
-    $imghtml .= '<img src="vp_pics/'. $picfiles[$i] .'" alt="pildid TLUst">';
-}*/
-$imghtml ='<img src="vp_pics/'. $picfiles[$picnum] .'" alt="pildid TLUst" class="center">';
+$imghtml ='<img src="img/vp_pics/'. $picfiles[$picnum] .'" alt="pildid TLUst" class="center">';
+
+   
+   
 
 
 ?>
@@ -96,9 +107,9 @@ $imghtml ='<img src="vp_pics/'. $picfiles[$picnum] .'" alt="pildid TLUst" class=
     </div>
     <hr>
     <div class="welcome">
-        <h1><?php echo $username; ?>  proovib </h1>
-        <p>Särkides ja värkides pole probleemi!</p>
-        <p>Leht loodud veebiproge kursuse raames <a href="https://www.tlu.ee/dt" style="color:deepskyblue">TLU Digitehnoloogiate Instituudis.</a></p>
+        <h1><?php echo $username; ?>  proooooovib </h1>
+        <p>Tegeleda veebiga raske vaid põnev!</p>
+        <p>Leht loodud veebiproge kursuse raames <a href="https://www.tlu.ee/dt" style="color:yellow">TLU Digitehnoloogiate Instituudis.</a></p>
     </div>
     <hr>
     <div class="time">
@@ -112,6 +123,6 @@ $imghtml ='<img src="vp_pics/'. $picfiles[$picnum] .'" alt="pildid TLUst" class=
     <hr>
     <?php echo $imghtml; ?>
     <hr>
-     <div style="width:100%;height:0px;position:relative;padding-bottom:75.000%;"><iframe src="https://streamable.com/e/4jljlx?loop=0" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div>
+     <div style="width:50%;height:0px;position:relative;padding-bottom:75.000%;"><iframe src="https://streamable.com/e/4jljlx?loop=0" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div>
 </body>
 </html>

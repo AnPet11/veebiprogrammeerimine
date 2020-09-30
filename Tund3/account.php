@@ -62,7 +62,7 @@
         <a href='listfilms.php'>Filmide nimekiri</a>
         <a href="addfilms.php">Lisa filme</a>
         <a class="active" href="account.php">Kasutaja</a>
-        <a href="https://github.com/karljanar/vp">GitHub</a>
+        <a href="https://github.com/anpet11/veebiprogrammeerimine">GitHubi link</a>
     </div>
     <hr>
     <form class="register" method="POST">
