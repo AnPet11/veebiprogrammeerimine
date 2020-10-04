@@ -1,5 +1,6 @@
 <?php
     require("header.php");
+	require("fnc_user.php");
     $firstnameerror = "";
     $lastnameerror = "";
     $emailerror = "";
@@ -27,6 +28,15 @@
         if(empty($_POST["emailinput"])){
             $emailerror = "Sisestage e-post.";
         }
+		else {
+			$emailcheck = filter_var($email, FILTER_VALIDATE_EMAIL);
+			
+			if (!$emailcheck){
+				$emailerror = "vale epost";
+			}
+		}
+		
+		
         if(strlen($_POST["passwordinput"]) < 8){
             $passworderror = "Liiga lühike parool.";
         }
@@ -36,8 +46,12 @@
         if(empty($_POST["genderinput"])){
             $gendererror = "Sisestage sugu.";
         }
-        if(empty($firstnameerror) and empty($lastnameerror) and empty($emailerror) and empty($passworderror) and empty($passwordmatcherror) and empty($gendererror)){
-            $storeinfo = "done";
+		if(empty($_POST['dateinput'])) {
+			$dateerror = 'Sisestamata sünnipäev!';
+		}
+        if(empty($firstnameerror) and empty($lastnameerror) and empty($emailerror) and empty($passworderror) and empty($passwordmatcherror) and empty($gendererror) and empty($dateerror)){
+			if (signup($firstname, $lastname, $email, $gender, $_POST['dateinput'], $_POST['passwordinput']) == "ok")
+				$storeinfo = "done";
         }
     }
 ?>
@@ -73,7 +87,7 @@
         <input type="text" name="lastnameinput" id="lastnameinput" value="<?php echo $lastname; ?>">
         <span style="color:firebrick"><?php echo $lastnameerror; ?></span><br>
         <label>E-post: </label>
-        <input type="email" name="emailinput" id="emailinput" value="<?php echo $email; ?>">
+        <input type="text" name="emailinput" id="emailinput" value="<?php echo $email; ?>">
         <span style="color:firebrick"><?php echo $emailerror; ?></span><br>
         <label>Parool: </label>
         <input type="password" name="passwordinput" id="passwordinput" placeholder="parool">
@@ -81,6 +95,8 @@
         <label>Korrake parooli: </label>
         <input type="password" name="passwordsecondaryinput" id="passwordsecondaryinput" placeholder="parool">
         <span style="color:firebrick"><?php echo $passwordmatcherror; ?></span><br>
+		<label>Sünnipäev</label>
+		<input type="date" name="dateinput" /><br>
         <label>Sugu: </label>
         <input type="radio" name="genderinput" id="gendermale" value="1" <?php if($gender == "1"){echo " checked";}?>>
         <label for="gendermale">Mees</label>

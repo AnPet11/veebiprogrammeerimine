@@ -7,7 +7,7 @@ require("config.php");
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel='icon' href='img/vp_logo_small.png' type='image/x-icon' >
-    <title><?php echo $username; ?> ehitab lehte</title>
+    <title>ehitab lehte</title>
     <style>
         body {
 
